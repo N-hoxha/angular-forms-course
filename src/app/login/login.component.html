@@ -1,27 +1,170 @@
-<mat-card class="login-page">
+ 
+ 
+ <mat-card class="login-page">
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
 
-    <form class="login-form data-form">
+    <!-- here " (ngSubmit)="login(loginForm)" " we take data form #loginForm="ngForm", #email="ngModel" and #password="ngModel" to understand how it works ngSubmit -->
+    <form class="login-form data-form" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
 
-      <mat-form-field>
+      <mat-form-field> 
 
         <input matInput type="email" name="email"
-               placeholder="Email">
-
+               ngModel #email="ngModel"
+               required email minlength="3" maxlength="35" 
+               placeholder="Email"> 
+         
       </mat-form-field>
+
+      <!-- we create a direction pipe " onlyOneError - only-one-error.pipe.ts ", whiche take all errors and display only one error down input by mat-error -->
+      <ng-container *ngIf="email.errors | onlyOneError:['required', 'minlength', 'email'] as error">
+
+        <mat-error *ngIf="error.required"> The email is mandatory. </mat-error>
+        
+        <mat-error *ngIf="error.minlength">
+         Your email must have minimum {{ error.minlength.requiredLength}} chars, but it only has {{ error.minlength.actualLength}}
+        </mat-error>
+
+        <mat-error *ngIf="error.email"> This is not a valid email. </mat-error>
+
+      </ng-container>
 
       <mat-form-field>
 
-        <input matInput type="password" placeholder="Password">
+        <!-- we created a new error key " passwordStrength " == createPasswordStrengthValidator() which connent with password-strength.directive.ts and after with app.module.ts  -->
+        <input matInput type="password" name="password" 
+               ngModel #password="ngModel" 
+               required passwordStrength minlength="8"
+               placeholder="Password">
 
       </mat-form-field>
 
-      <button mat-raised-button color="primary">
+      <ng-container *ngIf="password.errors | onlyOneError:['required', 'minlength', 'passwordStrength'] as error">
+
+        <mat-error *ngIf="error.required"> The password is mandatore. </mat-error>
+
+        <mat-error  *ngIf="error.passwordStrength"> 
+          Your password must have lower case, upper case and numeric characters.
+       </mat-error>
+
+       <mat-error *ngIf="error.minlength">
+         Your email must have minimum {{ error.minlength.requiredLength}} chars, but it only has {{ error.minlength.actualLength}}.
+        </mat-error>
+
+      </ng-container>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">
         Login
       </button>
 
     </form>
 
+       <div style="margin-top: 0.5rem;"> {{ password.errors | json}} </div> 
+       <div style="margin-top: 0.5rem;"> {{ loginForm.value | json}} </div> 
+
   </mat-card-content>
 </mat-card>
+
+<!---------------------------------------------------------------------------->
+
+ <!--The (ngModelChange), every time we change the input, we pass the data | onEmailChange($event) -> take the string inside input with help of $event -->
+        <!-- The " [ngModelOptions]="{ updateOn: 'blur' }" ", prevents ngModelChange by displaying data whenever the key is pressed, so displaying data when click outside the input -->
+        <!-- The " [ngModelOptions]="{ updateOn: 'change' }" ", prevents ngModelChange every time we change the input -->
+        <!-- The " [ngModelOptions]="{ updateOn: 'submit' }" ", prevents ngModelChange when click sumbit button -->
+        <!-- The " [ngModelOptions]="{ standalone: true }" ", prevents ngModelChange, not displaying the value email, in this case display only the password value form VALUE SYNTAX -->
+        <!-- if [ngModelOptions]="{ standalone: false }" " show all value, the email and password -->
+
+        <!-- NOTE: BOTH INPUT ARE THE SAME, THE DIFERENT ARE name="email" == [ngModelOptions]="{ name:'email' }" -->
+
+        <!-- <input matInput type="email" 
+                    ngModel #email="ngModel" [ngModelOptions]="{ name:'email' }"
+                    required email minlength="3" maxlength="35" 
+                    placeholder="Email">  -->
+
+        <!-- <input matInput type="email" name="email"
+                    ngModel #email="ngModel" 
+                    required email minlength="3" maxlength="35" 
+                    placeholder="Email">  -->
+
+         <!--  [ngModel]="val.email" == val = { email: "neritanhoxha2018@gmail.com" }, we take data by ts in template -->     
+         <!-- [(ngModel)]="val.email", we take data form both sides --> 
+
+        <!-- if false == [disabled]="loginForm.invalid", disabled button WHEN NOT DATA IN INPUT, else true open button -->
+      <!-- if false == [disabled]="!loginForm.valid" disabled button WHEN NOT DATA IN INPUT, else true open button -->
+      <!-- NOTE: we have data input == [disabled]="loginForm.valid" == true otherwise [disabled]="!loginForm.valid" == false -->
+
+<!--------------------------------------------------------------------------->
+
+<!-- <mat-card class="login-page">
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content> -->
+
+    <!-- NgForm is the syntax of FormsModule, which take data by <input> with the help of systaxis ngModel -->
+    <!-- NgForm itself: " #loginForm="ngForm" ", in the example down is a objekct like this: " { "email": "", "password": "" } " -->
+    <!-- any value inside dhe object: " "email": "" ", represents by" <input  name="email" ngModel required>" -->
+    <!-- <input  name="email" ngModel required>, the " required ", represents the valid: boolean | null, so: -->
+    <!-- {{ email.value + ' ' + email.valid}}, if not value insde input, email.valid == false else == true -->
+
+    <!-- <form class="login-form data-form" #loginForm="ngForm"> -->
+
+      <!-- NOTE: #loginForm="ngForm" AND #email="ngModel", they do not represent each other, if delete one the form works fine  -->
+      <!-- #loginForm="ngForm" takes data by all inputs together -->
+      <!-- #email="ngModel" take data by one input -->
+      <!-- NOTE: AS #loginForm="ngForm" AND #email="ngModel", BOTH represents a same functions: " AbstractControlDirective " -->
+      <!-- The AbstractControlDirective represents Directive, which we can get every possible value for control in template or conponent -->
+      <!-- 1. ngModel -> take data form templet in component -->
+      <!-- 2. [ngModel] -> take data form component in templet -->
+      <!-- 3. [(ngModel)] -> take data form both sides -->
+
+      <!-- <mat-form-field> -->
+
+        <!-- maxlength="35" -> we cannot add more than 35 values -->
+
+        <!-- <input matInput type="email" name="email"
+               ngModel #email="ngModel"
+               required email minlength="3" maxlength="35" 
+               placeholder="Email">  -->
+         
+        <!-- if *ngIf="email.errors?.required" == true show the message else null, not show | the *ngIf="email.errors?.required" take value by #email="ngModel" -->
+        <!-- <mat-error *ngIf="email.errors?.required"> The email is mandatory. </mat-error> -->
+
+         <!-- if error.minlength " *ngIf="email.errors?.minlength" ", show the error mesage -->
+         <!-- {{ email.errors?.minlength.requiredLength}} -> condition required length == minlength="3" -->
+         <!-- {{ email.errors?.minlength.actualLength}} -> show actual length  -->
+         <!-- <mat-error *ngIf="email.errors?.minlength">
+          Your email must have minimum {{ email.errors?.minlength.requiredLength}} chars, but it only has {{ email.errors?.minlength.actualLength}}
+         </mat-error> -->
+
+         <!-- if *ngIf="email.errors?.email" == true == { "email": true } show the error | we bind the *ngIf="email.errors?.email" by email inside input  -->
+         <!-- <mat-error *ngIf="email.errors?.email"> This is not a valid email. </mat-error> -->
+
+      <!-- </mat-form-field>
+
+      <mat-form-field>
+
+        <input matInput 
+               type="password"
+               name="password" 
+               ngModel
+               #password="ngModel"
+               placeholder="Password" 
+               required>
+
+      </mat-form-field>
+
+      <button mat-raised-button 
+              color="primary" 
+              (click)="takeValue(email)">
+        Login
+      </button>
+
+    </form> -->
+
+     <!-- <div style="margin-top: 0.5rem;"> {{ loginForm.value | json }} </div>
+ 
+     <div style="margin-top: 0.5rem;"> {{ email.value + ' ' + email.valid}} </div> -->
+
+     <!-- <div style="margin-top: 0.5rem;"> {{ email.errors | json}} </div>
+
+  </mat-card-content>
+</mat-card> -->

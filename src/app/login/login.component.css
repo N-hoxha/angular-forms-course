@@ -1,7 +1,7 @@
 
 
 .login-page {
-  max-width: 350px;
+  max-width: 500px;
   margin: 50px auto 0 auto;
 }
 
@@ -10,9 +10,34 @@
   flex-direction: column;
 }
 
-.test-input {
+.test-input { 
   border-bottom: 1px solid grey;
   margin-bottom: 10px;
 }
 
+mat-error.ng-star-inserted {
+  font-size: 12px;
+  margin-top: -23px;
+  margin-bottom: 4px;
+}
 
+/* pristine -> meaning that the user has never entered a new value inside input */
+/* prestine -> show only the user has never entered a new value inside input, otherwise not show */
+
+/* dirty -> meaninf the user has at least enterd some value inside input */
+/* dirty-> show only the user has never entered a new value inside input, otherwise not show*/
+
+/* we have 3 class inside ELEMENTS IN BROWSER WHEN NOT TOUCHED the inputs forms " ng-untouched ng-pristine ng-invalid ", which represents syntaxs:  */
+/* untouched: boolean | null, pristine: boolean | null, invalid: boolean | null, by AbstractControlDirective which we use to design the input when it's required */
+/* NOT TOUCHED INPUTS FORMS: untouched == false, pristine == false, invalid == true   */ 
+/* AFTER TOUCHED INPUTS FORMS:  untouched == false, pristine == false, invalid == false */
+
+/* we have 3 class inside ELEMENTS IN BROWSER, AFTER TOUCHED, WE MODIFICATION DATA INSIDE the inputs forms " ng-dirty ng-touched ng-valid ", which represents syntaxs:  */
+/* dirty: boolean | null, touched: boolean | null, valid: boolean | null, by AbstractControlDirective which we use to design the input when it's required */
+/* NOT TOUCHED INPUTS FORMS: dirty == true, touched == true, valid == false   */ 
+/* AFTER TOUCHED INPUTS FORMS:  dirty == true, touched == true, valid == true */
+
+/* the ng-invalid show inside ELEMENTS only not data inside input, if data show ng-valid */
+/* input.ng-invalid.ng-touched {
+  border: 2px solid red;
+} */

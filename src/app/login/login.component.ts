@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -8,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
+  
 
   constructor() {
 
@@ -18,4 +20,13 @@ export class LoginComponent implements OnInit {
 
   }
 
+  login(data: NgForm) {
+    console.log("ngForm data value", data);
+    console.log("ngForm data valid", data.valid);
+    
+  }
+
+  
+
 }
+  
