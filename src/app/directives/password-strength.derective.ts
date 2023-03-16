@@ -17,4 +17,4 @@ export class PasswordStrengthDirective implements Validator {
        // console.log(" directive controls ", control); // we take the FormControl to like Validator function
         return createPasswordStrengthValidator()(control);
     }
-} 
+}  

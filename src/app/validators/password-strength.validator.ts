@@ -10,12 +10,12 @@ export function createPasswordStrengthValidator(): ValidatorFn {
     // ValidationErrors function, defines the map of errors returned from failed validation checks or not.
     return ( control: AbstractControl ): ValidationErrors | null => {
 
-        console.log("control in validators", control); // FormControl for each input inside ngForm
+       // console.log("control in validators", control); // FormControl for each input inside ngForm
 
         // take all string input of password by ngModel and save here just const value
         const value = control.value; // ketu do lexoj ne dokumentacione sa funkjone kete nga libraria AbstractControl
 
-        if (!value) {
+        if (!value) { 
             return null;
         }
 
@@ -37,4 +37,4 @@ export function createPasswordStrengthValidator(): ValidatorFn {
         // this think " { passwordStrength: true } " add inside errors function that code reading by #password="ngModel" 
         
     }
-} 
+}  
