@@ -25,8 +25,8 @@ export class LoginReactiveComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log("every data info inside formGroup", this.form);
-    console.log("this.form.controls['email']",this.form.controls['email'] )
+    // console.log("every data info inside formGroup", this.form);
+    // console.log("this.form.controls['email']",this.form.controls['email'] )
 
   }
 
@@ -40,7 +40,7 @@ export class LoginReactiveComponent implements OnInit {
 
   reset() {
     this.form.reset();
-    console.log("this.form.value", this.form.value);
+    // console.log("this.form.value", this.form.value);
   }
 
 } 

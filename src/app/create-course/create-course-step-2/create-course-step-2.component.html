@@ -1,0 +1,37 @@
+ 
+ <div [formGroup]="form">
+
+    <mat-radio-group formControlName="couseType">
+        <mat-radio-button value="free"> Free </mat-radio-button>
+        <mat-radio-button value="premium"> Premium </mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field>
+        <input type="number" matInput placeholder="Price" formControlName="price">
+    </mat-form-field>
+
+    <mat-form-field>
+
+        <mat-label> Promotional period </mat-label>
+
+        <mat-date-range-input [rangePicker]="picker">
+
+            <input matStartDate formControlName="promoStartAt" placeholder="Start date">
+            <input matEndDate formControlName="promoEndAt" placeholder="End date">
+
+        </mat-date-range-input>
+
+        <mat-error *ngIf="form.errors?.promoPeriod && form.dirty"> 
+            The start date must be before the end date. 
+        </mat-error>
+
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+    </mat-form-field>
+
+ </div>
+
+ <div style="margin-bottom: 10px">
+    {{ form.value | json }}
+</div>

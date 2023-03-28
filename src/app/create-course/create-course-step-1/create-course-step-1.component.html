@@ -1,0 +1,61 @@
+
+<div [formGroup]="form">
+
+    <!-- 1 -->
+    <mat-form-field>
+
+        <!-- take the data from input by #title and past it inside mat-hint " {{ title.value.length }} "  -->
+        <input matInput placeholder="Course title" formControlName="title" #title>
+
+        <mat-hint align="end"> {{ title.value.length }} / 60 </mat-hint>
+
+        <!-- return this.form.controls['title']; -->
+        <mat-error *ngIf="courseTitle.errors?.titleExists" > This title is already being used. </mat-error>
+
+    </mat-form-field>
+
+    <!-- 2 -->
+    <mat-form-field>
+
+        <mat-select placeholder="Select category" formControlName="category">
+
+           <ng-container *ngFor="let category of (courseCategories$ | async)">
+              <!-- take the data inside string [value]="category.code" and past it in  formControlName="category" -->
+              <mat-option [value]="category.code">{{ category.description }}</mat-option>
+
+           </ng-container>
+
+        </mat-select>
+
+    </mat-form-field>
+
+    <!-- 3 -->
+    <mat-form-field appearance="fill">
+        
+        <input matInput 
+               [matDatepicker]="releaseDatePicker" 
+               placeholder="Release date" 
+               formControlName="releaseAt">
+      
+        <mat-datepicker-toggle matIconSuffix [for]="releaseDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #releaseDatePicker></mat-datepicker>
+
+    </mat-form-field>
+
+    <!-- 4 -->
+    <mat-checkbox color="primary" formControlName="downloadsAllowed">
+        Downloads allowed
+    </mat-checkbox>
+
+    <!-- 5 -->
+    <mat-form-field >
+
+        <textarea matInput placeholder="Description" formControlName="longDescription"></textarea>
+
+    </mat-form-field>
+
+</div>
+
+<div style="margin-bottom: 10px">
+    {{ form.value | json }}
+</div>
