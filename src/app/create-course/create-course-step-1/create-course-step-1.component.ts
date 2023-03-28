@@ -45,6 +45,23 @@ export class CreateCourseStep1Component implements OnInit {
  
   ngOnInit() {
    this.FindCourseCategories();
+
+   const draft = localStorage.getItem("STEP_1");
+
+   if (draft) {
+    this.form.setValue(JSON.parse(draft));
+   }
+
+   this.form.valueChanges.pipe( // per cdo vlere qe shtupim ne inputs form e shtojme ne localStorage
+
+    filter(() => this.form.valid)
+
+   ).subscribe(val => {
+
+    localStorage.setItem("STEP_1", JSON.stringify(val));
+
+   })
+
   }
 
   FindCourseCategories() {
